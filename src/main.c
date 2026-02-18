@@ -1,66 +1,54 @@
 /*******************************************************************************************
-*
-*   raylib [core] example - input keys
-*
-*   Example complexity rating: [★☆☆☆] 1/4
-*
-*   Example originally created with raylib 1.0, last time updated with raylib 1.0
-*
-*   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
-*   BSD-like license that allows static linking with closed source software
-*
-*   Copyright (c) 2014-2025 Ramon Santamaria (@raysan5)
-*
+
+Desktop Critter
+
+Omar, Keagan
+02/18/2026
+
 ********************************************************************************************/
 
 #include "../external/raylib.h"
 
-//------------------------------------------------------------------------------------
 // Program main entry point
-//------------------------------------------------------------------------------------
 int main(void)
 {
     // Initialization
-    //--------------------------------------------------------------------------------------
     const int screenWidth = 800;
-    const int screenHeight = 450;
+    const int screenHeight = 800;
 
-    InitWindow(screenWidth, screenHeight, "raylib [core] example - input keys");
+    SetConfigFlags(FLAG_WINDOW_TRANSPARENT); // Configures window to be transparent
+    InitWindow(screenWidth, screenHeight, "Desktop Critter");
+    SetWindowState(FLAG_WINDOW_UNDECORATED); // Hide border/titlebar; omit if you want them there.
 
-    Vector2 ballPosition = { (float)screenWidth/2, (float)screenHeight/2 };
+    SetTargetFPS(60);
+    
 
-    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
-    //--------------------------------------------------------------------------------------
+    // Load test cat image
+    Image cat = LoadImage("../imgs/cat.png"); // Loads the cat image into memory
+
+    Texture2D catTexture = LoadTextureFromImage(cat); // Creates texture from img
+
+    UnloadImage(cat); // Can unload image now that texture is created
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // Update
-        //----------------------------------------------------------------------------------
-        if (IsKeyDown(KEY_RIGHT)) ballPosition.x += 2.0f;
-        if (IsKeyDown(KEY_LEFT)) ballPosition.x -= 2.0f;
-        if (IsKeyDown(KEY_UP)) ballPosition.y -= 2.0f;
-        if (IsKeyDown(KEY_DOWN)) ballPosition.y += 2.0f;
-        //----------------------------------------------------------------------------------
 
         // Draw
-        //----------------------------------------------------------------------------------
         BeginDrawing();
 
-            ClearBackground(RAYWHITE);
+            ClearBackground(BLANK);
+            DrawTexture(catTexture, screenWidth/2 - catTexture.width/2, screenHeight/2 - catTexture.height/2 - 40, WHITE);
 
-            DrawText("move the ball with arrow keys", 10, 10, 20, DARKGRAY);
+            DrawText("Desktop Critter", 10, 10, 20, WHITE);
 
-            DrawCircleV(ballPosition, 50, MAROON);
 
         EndDrawing();
-        //----------------------------------------------------------------------------------
     }
 
     // De-Initialization
-    //--------------------------------------------------------------------------------------
     CloseWindow();        // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
 
     return 0;
 }
